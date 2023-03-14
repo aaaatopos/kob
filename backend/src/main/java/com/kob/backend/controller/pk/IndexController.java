@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  */
 @Controller
-@RequestMapping("/pk")
+@RequestMapping("/")
 public class IndexController {
 
-    @RequestMapping("/index/")
+    @RequestMapping
     public String index() {
         return "pk/index.html";  //返回tmeplates/pk/index.html
     }
