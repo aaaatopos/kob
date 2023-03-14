@@ -9,5 +9,5 @@ import java.util.Map;
  * @version 1.0
  */
 public interface RegisterService {
-    public Map<String, String> register(String username, String password, String confirmPassword);
+    public Map<String, String> register(String username, String password, String confirmedPassword);
 }

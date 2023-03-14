@@ -7,6 +7,7 @@ export default {
         photo: "",
         token: "",
         is_login: false,
+        pulling_info: true,  // 是否正在从后端拉取用户信息
     },
     getters: {
 
@@ -28,6 +29,9 @@ export default {
             state.token = "";
             state.is_login = false;
         },
+        updatePullingInfo(state, pulling_info) {
+            state.pulling_info = pulling_info;
+        },
     }, 
     actions: {  // 实现函数，公有函数，可以被外面调用，然后调用私有函数对变量进行赋值
         login(context, data) {  // 登录
@@ -40,6 +44,7 @@ export default {
                 },
                 success(resp) {
                     if(resp.error_msg === "success") {
+                        localStorage.setItem("jwt_token", resp.token);
                         context.commit("updateToken", resp.token);
                         data.success(resp);
                     } else {
@@ -75,6 +80,7 @@ export default {
             });
         },
         logout(context) {
+            localStorage.removeItem("jwt_token");
             context.commit("logout");
         }
     },
