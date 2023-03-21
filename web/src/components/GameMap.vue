@@ -11,14 +11,16 @@
 
 import { GameMap } from '@/assets/scripts/GameMap';
 import { ref, onMounted } from 'vue';  // 为了引入canvans
+import { useStore } from 'vuex';
 
 export default {
     setup() {
+        const store = useStore();
         let parent = ref(null);
         let canvas = ref(null);
 
         onMounted(() => {
-            new GameMap(canvas.value.getContext('2d'), parent.value);  //创建一个GameMap对象
+            new GameMap(canvas.value.getContext('2d'), parent.value, store);  //创建一个GameMap对象
         });
 
         return {

@@ -22,7 +22,6 @@ public class GetListController {
 
     @GetMapping("/getlist")
     public List<Bot> getList() {
-        System.out.println(111);
         return getListService.getList();
     }
 }
