@@ -58,6 +58,7 @@ export class Snake extends AcGameObject {
     next_step() {  // 将蛇的状态变为走下一步
         const d = this.direction;
         this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]); // 下一步的格子
+        this.eye_direction = d; // 更新蛇眼的方向。
         this.direction = -1;  // 清空方向
         this.status = "move";
         this.step ++;
@@ -66,12 +67,6 @@ export class Snake extends AcGameObject {
         for(let i = k; i > 0; i --) {  // 蛇的所有节点(格子)向后移动一位
             this.cells[i] = JSON.parse(JSON.stringify(this.cells[i - 1]));
         }
-
-        if(!this.gamemap.check_valid(this.next_cell)) {  // 如果下一位置不合法
-            this.status = "die";
-        }
-
-        this.eye_direction = d; // 更新蛇眼的方向。
     }
 
     update_move() {
