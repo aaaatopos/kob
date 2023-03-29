@@ -36,7 +36,7 @@ export default {
     actions: {  // 实现函数，公有函数，可以被外面调用，然后调用私有函数对变量进行赋值
         login(context, data) {  // 登录
             $.ajax({
-                url: "http://localhost:3000/user/account/token/",
+                url: "http://127.0.0.1:3000/user/account/token/",
                 type: "post",
                 data: {
                     username: data.username,
@@ -58,7 +58,7 @@ export default {
         },
         getinfo(context, data) {
             $.ajax({
-                url: "http://localhost:3000/user/account/info/",
+                url: "http://127.0.0.1:3000/user/account/info/",
                 type: "get",
                 headers: {
                     Authorization: "Bearer " + context.state.token,

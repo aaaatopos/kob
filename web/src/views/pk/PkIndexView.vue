@@ -73,6 +73,7 @@ export default {
         onUnmounted(() => {  // 卸载函数，离开页面时调用，需要将websocket链接断开，避免冗余链接
             socket.close();
             store.commit("updateStatus", "matching");
+            store.commit("updateLoser", "none");
         });
 
 

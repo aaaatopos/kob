@@ -14,9 +14,9 @@ public class MatchingServiceImpl implements MatchingService {
     public final static MatchingPool matchingPool = new MatchingPool();
 
     @Override
-    public String addPlayer(Integer userId, Integer rating) {
+    public String addPlayer(Integer userId, Integer rating, Integer botId) {
         System.out.println("add Player" + userId + " " + rating);
-        matchingPool.addPlayer(userId, rating);  // 将用户加入匹配池中
+        matchingPool.addPlayer(userId, rating, botId);  // 将用户加入匹配池中
         return "add player success";
     }
 
