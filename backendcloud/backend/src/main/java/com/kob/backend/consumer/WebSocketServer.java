@@ -35,7 +35,7 @@ public class WebSocketServer {
     private Session session = null;
 
     public static RecordMapper recordMapper;
-    private static UserMapper userMapper;  // 静态变量访问时需要使用类名进行访问。
+    public static UserMapper userMapper;  // 静态变量访问时需要使用类名进行访问。
 
     private static BotMapper botMapper;
 

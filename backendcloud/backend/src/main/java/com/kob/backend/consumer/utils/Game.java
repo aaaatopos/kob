@@ -5,6 +5,8 @@ import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.mapper.RecordMapper;
 import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.Record;
+import com.kob.backend.pojo.User;
+import com.kob.backend.service.user.bot.UpdateService;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -316,9 +318,35 @@ public class Game extends Thread {
     }
 
     /**
-     * 将对战记录保存到数据库中。
+     * 对局结束后，更新玩家的对战积分
+     * @param player 玩家
+     * @param rating 对战积分
+     */
+    private void updateUserRating(Player player, Integer rating) {
+        User user = WebSocketServer.userMapper.selectById(player.getId());
+        user.setRating(rating);
+        WebSocketServer.userMapper.updateById(user);
+    }
+
+    /**
+     * 将对战记录保存到数据库中。在对战结束后先更新两个玩家的对战积分。
      */
     private void saveToDatabase() {
+        Integer ratingA = WebSocketServer.userMapper.selectById(playerA.getId()).getRating();
+        Integer ratingB = WebSocketServer.userMapper.selectById(playerB.getId()).getRating();
+
+        // 赢一局加5分，输一局减2分。
+        if ("A".equals(loser)) {
+            ratingA -= 2;
+            ratingB += 5;
+        } else if ("B".equals(loser)){
+            ratingA += 5;
+            ratingB -= 2;
+        }
+
+        updateUserRating(playerA, ratingA);
+        updateUserRating(playerB, ratingB);
+
         Record record = new Record(
                 null,
                 playerA.getId(),

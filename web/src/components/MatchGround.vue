@@ -69,11 +69,7 @@ export default {
                     Authorization: "Bearer " + store.state.user.token,
                 },
                 success(resp) {
-                    console.log(resp);
                     bots.value = resp;
-                },
-                error(resp) {
-                    console.log(resp);
                 },
             });
         };

@@ -36,22 +36,46 @@ export class GameMap extends AcGameObject {
     }
 
     add_listening_events() {  // 监听 用户输入
-        this.ctx.canvas.focus(); // 添加 canvas 聚焦
+        if (this.store.state.record.is_record) {  // 如果是录像
+            let k = 0;
+            const a_steps = this.store.state.record.a_steps;
+            const b_steps = this.store.state.record.b_steps;
+            const loser = this.store.state.record.record_loser;
+            const [snake0, snake1] = this.snakes;
+            const interval_id = setInterval(() => {
+                if(k >= a_steps.length - 1) {  // 判断到倒数第二步
+                    console.log(loser);
+                    if (loser === "all" || loser === "A") {
+                        snake0.status = "die";
+                    }
+                    if (loser === "all" || loser === "B") {
+                        snake1.status = "die";
+                    }
+                    clearInterval(interval_id);
+                } else {
+                    snake0.set_direction(parseInt(a_steps[k]));
+                    snake1.set_direction(parseInt(b_steps[k])); 
+                }
+                k ++;
+            }, 300);  // 每300ms设置下一步的移动方向
+        } else {
+            this.ctx.canvas.focus(); // 添加 canvas 聚焦
 
-        this.ctx.canvas.addEventListener("keydown", e => {
-            let d = -1;  // 记录蛇的移动方向
-            if(e.key === 'w') d = 0;
-            else if(e.key === 'd') d = 1;
-            else if(e.key === 's') d = 2;
-            else if(e.key === 'a') d = 3;
+            this.ctx.canvas.addEventListener("keydown", e => {
+                let d = -1;  // 记录蛇的移动方向
+                if(e.key === 'w') d = 0;
+                else if(e.key === 'd') d = 1;
+                else if(e.key === 's') d = 2;
+                else if(e.key === 'a') d = 3;
 
-            if(d >= 0) {
-                this.store.state.pk.socket.send(JSON.stringify({  // 向后端发送请求
-                    event: "move",
-                    direction: d,
-                }));
-            }
-        });
+                if(d >= 0) {
+                    this.store.state.pk.socket.send(JSON.stringify({  // 向后端发送请求
+                        event: "move",
+                        direction: d,
+                    }));
+                }
+            });
+        }
     }
 
     start() {

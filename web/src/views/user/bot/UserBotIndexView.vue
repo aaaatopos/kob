@@ -250,4 +250,8 @@ button.btn-secondary{
 div.error-msg{
     color: red;
 }
+th, td {
+    text-align: center;
+    vertical-align: middle;
+}
 </style>
