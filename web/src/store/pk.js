@@ -14,6 +14,7 @@ export default {
         b_sy: 0,
         gameObject: null,  // 保存gameMap对象
         loser: "none", // none / all / A / B
+        birthLocation: "none",  // 记录出生位置
     },
     getters: {
     },
@@ -42,6 +43,9 @@ export default {
         },
         updateLoser(state, loser) {
             state.loser = loser;
+        },
+        updateBirthLocation(state, birthLocation) {
+            state.birthLocation = birthLocation;
         }
     }, 
     actions: {  // 实现函数，公有函数，可以被外面调用，然后调用私有函数对变量进行赋值

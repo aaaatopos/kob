@@ -2,6 +2,7 @@
     <PlayGround v-if="$store.state.pk.status === 'playing'"></PlayGround>
     <MatchGround v-if="$store.state.pk.status === 'matching'"></MatchGround>
     <ResultBoard v-if="$store.state.pk.loser != 'none'"></ResultBoard>
+    <BirthLocation v-if="$store.state.pk.status === 'matching' && $store.state.pk.birthLocation != 'none'"></BirthLocation>
 </template>
 
 <script>
@@ -9,6 +10,7 @@
 import PlayGround from '@/components/PlayGround.vue'
 import MatchGround from '@/components/MatchGround.vue'
 import ResultBoard from '@/components/ResultBoard.vue'
+import BirthLocation from '@/components/BirthLocation.vue'
 import { onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 
@@ -17,6 +19,7 @@ export default {
         PlayGround,
         MatchGround,
         ResultBoard,
+        BirthLocation,
     },
     setup() {
         const store = useStore();
@@ -44,8 +47,15 @@ export default {
                         username: data.opponent_username,
                         photo: data.opponent_photo,
                     });
+                    let a_id = data.game.a_id;
+                    let b_id = data.game.b_id;
+                    if(store.state.user.id == a_id) 
+                        store.commit("updateBirthLocation", "left");
+                    else if(store.state.user.id == b_id) 
+                        store.commit("updateBirthLocation", "right");
                     setTimeout(() => {
                         store.commit("updateStatus", "playing");
+                        store.commit("updateBirthLocation", "none");
                     }, 2000);
                     store.commit("updateGame", data.game);
                 } else if (data.event === "move") {  // 接收到后端的消息为 需要移动
